@@ -1,0 +1,24 @@
+{
+  "name": "barista",
+  "version": "1.0.0",
+  "description": "Barista-matic Programming Assignment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jhu7235/barista.git"
+  },
+  "author": "Jason Hu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jhu7235/barista/issues"
+  },
+  "homepage": "https://github.com/jhu7235/barista#readme",
+  "dependencies": {
+    "http-server": "^0.10.0",
+    "react": "^15.6.1",
+    "redux": "^3.7.2"
+  }
+}

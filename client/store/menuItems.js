@@ -1,44 +1,47 @@
 /**
  * ACTION TYPES
  */
-const RESET_MENUITEMS = 'RESET_MENUITEMS';
-const ADD_MENUITEM = 'ADD_MENUITEM';
-const REMOVE_MENUITEM = 'REMOVE_MENUITEM';
-const UPDATE_MENUITEM = 'UPDATE_MENUITEM';
+const RESET_MENU_ITEMS = 'RESET_MENU_ITEMS';
+const ADD_MENU_ITEM = 'ADD_MENU_ITEM';
+const REMOVE_MENU_ITEM = 'REMOVE_MENU_ITEM';
+const UPDATE_MENU_ITEM = 'UPDATE_MENU_ITEM';
 
 /**
  * ACTION CREATORS
  */
-export const resetInventories = inventories => ({ type: RESET_MENUITEMS, inventories });
-export const updateInventory = inventory => ({ type: UPDATE_MENUITEM, inventory });
-export const addInventory = inventory => ({ type: ADD_MENUITEM, inventory });
-export const removeInventory = id => ({ type: REMOVE_MENUITEM, id });
+export const resetMenuItems = menuItems => ({ type: RESET_MENU_ITEMS, menuItems });
+// FUTURE PROOFING //
+export const updateMenuItem = menuItem => ({ type: UPDATE_MENU_ITEM, menuItem });
+// FUTURE PROOFING //
+export const addMenuItem = menuItem => ({ type: ADD_MENU_ITEM, menuItem });
+// FUTURE PROOFING //
+export const removeMenuItem = id => ({ type: REMOVE_MENU_ITEM, id });
 
 /**
  * REDUCER
  */
-export default function reducer(inventories = [], action) {
+export default function reducer(menuItems = [], action) {
   switch (action.type) {
-    case RESET_MENUITEMS:
-      return action.inventories;
+    case RESET_MENU_ITEMS:
+      return action.menuItems;
 
     // FUTURE PROOFING //
-    case UPDATE_MENUITEM:
-      return inventories.map(inventory => {
-        if (inventory.id === action.inventory.id) return action.inventory;
-        else return inventory;
+    case UPDATE_MENU_ITEM:
+      return menuItems.map(menuItem => {
+        if (menuItem.id === action.menuItem.id) return action.menuItem;
+        else return menuItem;
       });
 
     // FUTURE PROOFING //
-    case ADD_MENUITEM:
-      return [action.inventory, ...inventories];
+    case ADD_MENU_ITEM:
+      return [action.menuItem, ...menuItems];
 
     // FUTURE PROOFING //
-    case REMOVE_MENUITEM:
-      return inventories.filter(inventory => inventory.id !== action.id);
+    case REMOVE_MENU_ITEM:
+      return menuItems.filter(menuItem => menuItem.id !== action.id);
 
     default:
-      return inventories;
+      return menuItems;
   }
 }
 

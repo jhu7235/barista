@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, Icon } from 'react-materialize';
-import { fetchReviews } from '../store/reviews';
+import { fetchMenu } from '../store/reviews';
 
 
-class Reviews extends React.Component {
+class Menu extends React.Component {
   componentDidMount() {
     this.props.loadInitialData(this.props.location.search);
   }
@@ -74,16 +74,16 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     loadInitialData(searchTerm) {
-      dispatch(fetchReviews(searchTerm));
+      dispatch(fetchMenu(searchTerm));
     },
   };
 };
 
-export default connect(mapState, mapDispatch)(Reviews);
+export default connect(mapState, mapDispatch)(Menu);
 
 /**
  * PROP TYPES
  */
-Reviews.propTypes = {
+Menu.propTypes = {
   loadInitialData: PropTypes.func.isRequired,
 };

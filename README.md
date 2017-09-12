@@ -63,10 +63,7 @@ message.
 
 
 ##OUTPUT FORMAT:
-All output should be written to the standard output stream. At program startup, and following the
-processing of every command, the machine inventory and the drink menu should be displayed. Both
-the inventory list and the drink menu should be displayed in alphabetic order (by ingredient name or
-drink name, respectively), in the following format:
+All output should be written to the standard output stream. At program startup, and following the processing of every command, the machine inventory and the drink menu should be displayed. Both the inventory list and the drink menu should be displayed in alphabetic order (by ingredient name or drink name, respectively), in the following format:
 	Inventory:
 		<ingredient name>,<quantity in inventory>
 		...

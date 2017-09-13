@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { Router } from 'react-router';
-import { Menu } from './Menu.jsx';
+import Selection from './Selection.jsx';
+import Message from './Message.jsx';
+import { resetInventories } from '../store/inventories';
+import { resetMenuItems } from '../store/menuItems';
+import { resetMessages } from '../store/messages';
+import { connect } from 'react-redux';
 
 /**
  * COMPONENT
@@ -10,22 +12,54 @@ import { Menu } from './Menu.jsx';
 class Main extends Component {
   constructor() {
     super();
-    };
+    this.state = {
+      appStarted: false,
+    }
+    this.handleStart = this.handleStart.bind(this)
+  }
+
+  handleStart() {
+    this.setState({ appStarted: true })
+  }
+
+  componentDidMount() {
+    this.props.loadInitialData(this.props.inventories);
   }
 
   render() {
     return (
-      <Router>
-        <Main>
-          <Switch>
-            {/* Main placed here are available to all visitors */}
-            <Route component={Selection} />
-            {/* Displays our Login component as a fallback */}
-            <Route component={Message} />
-          </Switch>
-        </Main>
-      </Router>
+      <div id='main' className='center'>
+        {this.state.appStarted
+          ? <Selection />
+          : (
+            <div id='welcome' className='container'>
+              <h1>Welcome to Barista-matic</h1>
+              <button onClick={this.handleStart} className="btn-flat">Start</button>
+            </div>
+          )
+        }
+      </div>
     );
   }
 }
 
+const mapState = (state) => {
+  return {
+    inventories: state.inventories,
+    menuItems: state.menuItems,
+    messages: state.messages,
+    appStarted: state.appStarted
+  };
+};
+
+const mapDispatch = (dispatch) => {
+  return {
+    loadInitialData(inventories) {
+      dispatch(resetInventories());
+      dispatch(resetMenuItems(inventories));
+      dispatch(resetMessages());
+    },
+  };
+};
+
+export default connect(mapState, mapDispatch)(Main);

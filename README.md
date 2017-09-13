@@ -40,9 +40,7 @@ should restore each ingredient to a maximum of 10 units.
 
 
 ##INPUT FORMAT:
-Your solution should read from the standard input stream, one command per line. No prompts or
-other extraneous user messages should be displayed. Blank input lines should be ignored.
-Each valid command consists of a single character, as follows:
+Your solution should read from the standard input stream, one command per line. No prompts or other extraneous user messages should be displayed. Blank input lines should be ignored. Each valid command consists of a single character, as follows:
 	'R' or 'r' - restock the inventory and redisplay the menu
 	'Q' or 'q' - quit the application
 	[1-6] - order the drink with the corresponding number in the menu
@@ -50,11 +48,11 @@ If the user enters an invalid command, then the program should display a single-
 following format:
 	Invalid selection: <characters that were entered>
 
-If the user selects a valid drink number, and the machine has the required ingredients to make the
+[x] If the user selects a valid drink number, and the machine has the required ingredients to make the
 drink, then the program should display a single-line message with the following format:
 	Dispensing: <drink name>
 
-On the other hand, if the drink order cannot be completed, then the program should display a
+[x] On the other hand, if the drink order cannot be completed, then the program should display a
 single-line message with the following format:
 	Out of stock: <drink name>
 
@@ -138,7 +136,7 @@ the program would produce the following output (including the startup output):
 		5,Coffee,$2.75,true
 		6,Decaf Coffee,$2.75,true
 	Dispensing: Caffe Latte
-		Inventory:
+	Inventory:
 		Cocoa,10
 		Coffee,10
 		Cream,10

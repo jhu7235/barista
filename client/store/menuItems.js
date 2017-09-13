@@ -1,51 +1,59 @@
+import { initialMenuItems } from '../initialData';
+import { newId } from './helper';
+
 /**
  * ACTION TYPES
  */
 const RESET_MENU_ITEMS = 'RESET_MENU_ITEMS';
-const ADD_MENU_ITEM = 'ADD_MENU_ITEM';
-const REMOVE_MENU_ITEM = 'REMOVE_MENU_ITEM';
-const UPDATE_MENU_ITEM = 'UPDATE_MENU_ITEM';
+const PUT_MENU_ITEM = 'PUT_MENU_ITEM';
+const DELETE_MENU_ITEM = 'DELETE_MENU_ITEM';
+const POST_MENU_ITEM_STATUSES = 'POST_MENU_ITEM_STATUSES';
 
 /**
  * ACTION CREATORS
  */
 export const resetMenuItems = menuItems => ({ type: RESET_MENU_ITEMS, menuItems });
 // FUTURE PROOFING //
-export const updateMenuItem = menuItem => ({ type: UPDATE_MENU_ITEM, menuItem });
+export const postMenuItemStatuses = data => ({ type: POST_MENU_ITEM_STATUSES, data });// {id: {}}
 // FUTURE PROOFING //
-export const addMenuItem = menuItem => ({ type: ADD_MENU_ITEM, menuItem });
+export const putMenuItem = menuItem => ({ type: PUT_MENU_ITEM, menuItem });
 // FUTURE PROOFING //
-export const removeMenuItem = id => ({ type: REMOVE_MENU_ITEM, id });
+export const deleteMenuItem = id => ({ type: DELETE_MENU_ITEM, id });
 
 /**
  * REDUCER
  */
-export default function reducer(menuItems = [], action) {
+export default function reducer(menuItems = {}, action) {
+  let newMenuItems = Object.assign({},menuItems)
   switch (action.type) {
+
     case RESET_MENU_ITEMS:
-      return action.menuItems;
+      return initialMenuItems;
+
+    case POST_MENU_ITEM_STATUSES:
+      function updateInStock(itemId) {
+        newMenuItems[itemId].inStock = newMenuItems[itemId].recipe
+          .every(ingredient => {
+            return ingredient.count < action.data.inventories[ingredient.id].count
+          })
+      }
+      action.data.ingredientIds.forEach(ingId =>
+        action.data.inventories[ingId].menuItem.forEach(updateInStock))
+      return newMenuItems;
 
     // FUTURE PROOFING //
-    case UPDATE_MENU_ITEM:
-      return menuItems.map(menuItem => {
-        if (menuItem.id === action.menuItem.id) return action.menuItem;
-        else return menuItem;
-      });
+    case PUT_MENU_ITEM:
+      if(!action.menuItem.text) return menuItem;
+      let id = newId(newMenuItems)
+      newMenuItems[id] = action.menuItem;
+      return newMenuItems[id];
 
     // FUTURE PROOFING //
-    case ADD_MENU_ITEM:
-      return [action.menuItem, ...menuItems];
-
-    // FUTURE PROOFING //
-    case REMOVE_MENU_ITEM:
+    case DELETE_MENU_ITEM:
       return menuItems.filter(menuItem => menuItem.id !== action.id);
 
     default:
       return menuItems;
   }
 }
-
-/**
- * THUNK CREATORS
- */
 

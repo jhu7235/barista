@@ -4,6 +4,10 @@
   "description": "Barista-matic Programming Assignment",
   "main": "index.js",
   "scripts": {
+    "build-client-watch": "webpack -w",
+    "start": "http-server -c-1 .",
+    "start-server": "node server",
+    "start-dev": "npm run build-client-watch & npm run start-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,8 +21,35 @@
   },
   "homepage": "https://github.com/jhu7235/barista#readme",
   "dependencies": {
+    "bluebird": "^3.5.0",
+    "express": "^4.15.4",
     "http-server": "^0.10.0",
     "react": "^15.6.1",
-    "redux": "^3.7.2"
+    "react-dom": "^15.6.1",
+    "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-select": "^1.0.0-rc.9",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.22.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "eslint": "^4.3.0",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.1.0",
+    "file-loader": "^0.11.2",
+    "node-sass": "^4.5.0",
+    "sass-loader": "^6.0.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^2.2.1"
   }
 }

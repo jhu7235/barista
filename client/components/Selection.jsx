@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Promise from 'bluebird';
 import Menu from './Menu.jsx';
 import Inventory from './Inventory.jsx';
 import Message from './Message.jsx';
 import { displayMessageTC } from '../store/messages';
 import { updateInventoryCount } from '../store/inventories';
 import { postMenuItemStatuses } from '../store/menuItems';
-import Promise from 'bluebird';
+import { resetInventories } from '../store/inventories';
+import { resetMenuItems } from '../store/menuItems';
 
 /**
  * COMPONENT
@@ -18,13 +20,20 @@ class Selection extends Component {
   }
 
   handleSubmit(event){
-    this.props.handleSubmit(event, this.props.inventories, this.props.menuItems)
+    event.preventDefault();
+    const result = this.props.handleSubmit(event, this.props.menuItems)
+    if(result) {
+      result.then((ingredientIds) => {
+          return this.props.postMenuItemStatuses({ingredientIds, inventories: this.props.inventories })
+        })
+        .catch(console.log)
+    }
+      // 
   }
 
   render() {
     return (
       <div id='selection' className='container'>
-        {console.log(this.props.messages.throw)}
         {this.props.messages.throw
           ? <Message />
           : (<div>
@@ -38,7 +47,7 @@ class Selection extends Component {
                     <input
                       name="menuItem"
                       type="text"
-                      className="form-control"
+                      className="form-control center"
                       required
                     />
                   </div>
@@ -47,7 +56,7 @@ class Selection extends Component {
                   <button type='submit' className="btn-flat">Submit</button>
                 </div>
               </form>
-                <button className="btn-flat" onClick='handleReset'>Reset Inventory</button>
+                <button className="btn-flat" onClick={this.props.handleReset}>Reset Inventory</button>
             </div>)
         }
 
@@ -67,35 +76,43 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    handleSubmit: (event, inventories, menuItems) => {
+    handleSubmit: (event, menuItems) => {
 
       function placeOrder(menuId) {
         const recipe = [...menuItems[menuId].recipe],
           promiseArr = [],
           ingredientIds = [];
-          
+
         dispatch(displayMessageTC('2', menuItems[menuId].name));
+
         recipe.map( ingredient => {
           ingredientIds.push(ingredient.id)
           promiseArr.push(new Promise((resolve) => {
-            resolve(dispatch(updateInventoryCount({
-              id: ingredient.id,
-              count: ingredient.count,
-            })))
+            resolve(dispatch(updateInventoryCount({ id: ingredient.id, count: ingredient.count})))
           }))
         })
-        Promise.all(promiseArr)
-          .then((res) => {
-            dispatch(postMenuItemStatuses({ingredientIds: ingredientIds, inventories }))
+        return (Promise.all(promiseArr))
+          .then(() => {
+            return ingredientIds
           })
+          .catch(console.log)
       }
 
-      event.preventDefault();
       const menuId = event.target.menuItem.value.toString();
-      if(!menuItems[menuId]) {dispatch(displayMessageTC('1', menuId))}
-      else if(!menuItems[menuId].inStock) dispatch(displayMessageTC('3', menuItems[menuId].name))
-      else placeOrder(menuId)
-    }
+      if(!menuItems[menuId]) return dispatch(displayMessageTC('1', menuId))
+      else if(!menuItems[menuId].inStock) return dispatch(displayMessageTC('3', menuItems[menuId].name))
+      else return placeOrder(menuId)
+    },
+
+    postMenuItemStatuses: (data) => {
+      dispatch(postMenuItemStatuses(data));
+    },
+
+    handleReset: (inventories) => {
+      dispatch(resetInventories());
+      dispatch(resetMenuItems());
+    },
+
   }
 }
 

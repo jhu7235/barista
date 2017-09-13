@@ -12,7 +12,7 @@ const POST_INVENTORY_COUNT = 'POST_INVENTORY_COUNT';
 /**
  * ACTION CREATORS
  */
-export const resetInventories = () => ({ type: RESET_INVENTORIES });
+export const resetInventories = () => ({ type: RESET_INVENTORIES, initialInventories });
 export const postInventoryCount = data => ({ type: POST_INVENTORY_COUNT, data });
 // FUTURE PROOFING //
 export const addInventory = inventory => ({ type: PUT_INVENTORY, inventory });
@@ -23,10 +23,11 @@ export const removeInventory = id => ({ type: DELETE_INVENTORY, id });
  * REDUCER
  */
 export default function reducer(inventories = {}, action) {
-  let newInventories = Object.assign({},inventories)
+  let newInventories = JSON.parse(JSON.stringify(inventories));
   switch (action.type) {
     case RESET_INVENTORIES:
-      return initialInventories;
+      newInventories = JSON.parse(JSON.stringify(action.initialInventories));
+      return newInventories;
 
     case POST_INVENTORY_COUNT:
       newInventories[action.data.id].count -= action.data.count      
@@ -47,8 +48,16 @@ export default function reducer(inventories = {}, action) {
   }
 }
 export const updateInventoryCount = (data) => (dispatch) => {
-  console.log('updateInventoryCount', data)
   let id = data.id
   let count = data.count;
   return dispatch(postInventoryCount({ id, count }))
+}
+
+function clone(obj) {
+    if (null == obj || "object" != typeof obj) return obj;
+    var copy = obj.constructor();
+    for (var attr in obj) {
+        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+    }
+    return copy;
 }

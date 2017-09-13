@@ -24,21 +24,24 @@ export const deleteMenuItem = id => ({ type: DELETE_MENU_ITEM, id });
  * REDUCER
  */
 export default function reducer(menuItems = {}, action) {
-  let newMenuItems = Object.assign({},menuItems)
+  let newMenuItems = JSON.parse(JSON.stringify(menuItems));
   switch (action.type) {
 
     case RESET_MENU_ITEMS:
-      return initialMenuItems;
+      return JSON.parse(JSON.stringify(initialMenuItems));
 
     case POST_MENU_ITEM_STATUSES:
       function updateInStock(itemId) {
-        newMenuItems[itemId].inStock = newMenuItems[itemId].recipe
-          .every(ingredient => {
-            return ingredient.count < action.data.inventories[ingredient.id].count
-          })
+        if(newMenuItems[itemId].inStock) {
+          newMenuItems[itemId].inStock = newMenuItems[itemId].recipe
+            .every(ingredient => {
+              return ingredient.count < action.data.inventories[ingredient.id].count;
+            })
+        }
       }
-      action.data.ingredientIds.forEach(ingId =>
-        action.data.inventories[ingId].menuItem.forEach(updateInStock))
+      action.data.ingredientIds.forEach(ingId => {
+        return action.data.inventories[ingId].menuItem.forEach(updateInStock)
+      })
       return newMenuItems;
 
     // FUTURE PROOFING //

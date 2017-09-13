@@ -22,6 +22,10 @@ class Main extends Component {
     this.setState({ appStarted: true })
   }
 
+  handleQuit() {
+    this.setState({ appStarted: false })
+  }
+
   componentDidMount() {
     this.props.loadInitialData(this.props.inventories);
   }
@@ -30,11 +34,14 @@ class Main extends Component {
     return (
       <div id='main' className='center'>
         {this.state.appStarted
-          ? <Selection />
+          ? (<div>
+            <Selection />
+              <button onClick={this.handleQuit} className="btn-flat">Exit</button>
+            </div>)
           : (
             <div id='welcome' className='container'>
               <h1>Welcome to Barista-matic</h1>
-              <button onClick={this.handleStart} className="btn-flat">Start</button>
+              <button onClick={this.handleStart} className="btn-flat btn-primary">Start</button>
             </div>
           )
         }

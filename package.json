@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build-client-watch": "webpack -w",
-    "start": "http-server -c-1 .",
+    "start": "npm run build-client-watch & npm run start-server",
     "start-server": "node server",
     "start-dev": "npm run build-client-watch & npm run start-server",
     "test": "echo \"Error: no test specified\" && exit 1"

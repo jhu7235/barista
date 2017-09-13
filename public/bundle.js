@@ -11768,6 +11768,7 @@ var Main = function (_Component) {
       appStarted: false
     };
     _this.handleStart = _this.handleStart.bind(_this);
+    _this.handleQuit = _this.handleQuit.bind(_this);
     return _this;
   }
 

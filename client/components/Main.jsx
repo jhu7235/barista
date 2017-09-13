@@ -16,6 +16,7 @@ class Main extends Component {
       appStarted: false,
     }
     this.handleStart = this.handleStart.bind(this)
+    this.handleQuit = this.handleQuit.bind(this)
   }
 
   handleStart() {

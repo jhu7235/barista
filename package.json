@@ -10,16 +10,8 @@
     "start-dev": "npm run build-client-watch & npm run start-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jhu7235/barista.git"
-  },
   "author": "Jason Hu",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/jhu7235/barista/issues"
-  },
-  "homepage": "https://github.com/jhu7235/barista#readme",
   "dependencies": {
     "bluebird": "^3.5.0",
     "express": "^4.15.4",

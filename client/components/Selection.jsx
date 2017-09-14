@@ -9,6 +9,7 @@ import { updateInventoryCount } from '../store/inventories';
 import { postMenuItemStatuses } from '../store/menuItems';
 import { resetInventories } from '../store/inventories';
 import { resetMenuItems } from '../store/menuItems';
+import { listIdToId } from './helper';
 
 /**
  * COMPONENT
@@ -98,8 +99,9 @@ const mapDispatch = (dispatch) => {
           .catch(console.log)
       }
 
-      const menuId = event.target.menuItem.value.toString();
-      if(!menuItems[menuId]) return dispatch(displayMessageTC('1', menuId))
+      const menuId = listIdToId(event.target.menuItem.value.toString(), menuItems)
+      console.log(menuId)
+      if(!menuId) return dispatch(displayMessageTC('1', event.target.menuItem.value.toString()))
       else if(!menuItems[menuId].inStock) return dispatch(displayMessageTC('3', menuItems[menuId].name))
       else return placeOrder(menuId)
     },

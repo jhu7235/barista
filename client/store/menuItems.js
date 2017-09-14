@@ -1,5 +1,5 @@
 import { initialMenuItems } from '../initialData';
-import { newId } from './helper';
+import { newId, updateListingOrder } from './helper';
 
 /**
  * ACTION TYPES
@@ -28,7 +28,9 @@ export default function reducer(menuItems = {}, action) {
   switch (action.type) {
 
     case RESET_MENU_ITEMS:
-      return JSON.parse(JSON.stringify(initialMenuItems));
+      newMenuItems = JSON.parse(JSON.stringify(initialMenuItems))
+      updateListingOrder(newMenuItems)
+      return newMenuItems;
 
     case POST_MENU_ITEM_STATUSES:
       function updateInStock(itemId) {

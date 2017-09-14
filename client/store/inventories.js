@@ -1,5 +1,5 @@
 import { initialInventories } from '../initialData';
-import { newId } from './helper';
+import { newId, updateListingOrder } from './helper';
 
 /**
  * ACTION TYPES
@@ -27,6 +27,7 @@ export default function reducer(inventories = {}, action) {
   switch (action.type) {
     case RESET_INVENTORIES:
       newInventories = JSON.parse(JSON.stringify(action.initialInventories));
+      updateListingOrder(newInventories)
       return newInventories;
 
     case POST_INVENTORY_COUNT:

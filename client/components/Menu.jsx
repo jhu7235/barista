@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { byListId } from './helper';
 
 /**
  * COMPONENT
@@ -33,10 +34,10 @@ class Menu extends Component {
         <h2>Menu</h2>
         <div>
           <ul>
-            {Object.keys(this.props.menuItems).map((key,index) => {
-              let item = this.props.menuItems[key]
-              return (<li key={key}>{index+1}. {item.name} ${this.calculatePrice(item)} {item.inStock? 'In Stock' : 'Out of Stock'}</li>)
-            })}
+            {Object.keys(this.props.menuItems).map(key => this.props.menuItems[key])
+              .sort(byListId)
+              .map(item => (<li key={item.listId}>{item.listId}. {item.name} ${this.calculatePrice(item)} {item.inStock? 'In Stock' : 'Out of Stock'}</li>))
+              }
           </ul>
         </div>
       </div>

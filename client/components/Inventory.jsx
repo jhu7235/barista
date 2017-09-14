@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { byListId } from './helper';
 
 /**
  * COMPONENT
@@ -16,17 +16,16 @@ class Inventory extends Component {
         <h2>Inventory</h2>
         <div>
           <ul>
-            {Object.keys(this.props.inventories).map(key => {
-              return (<li key={key}>{this.props.inventories[key].name} {this.props.inventories[key].count}</li>)
-            })}
+            {Object.keys(this.props.inventories).map(key => this.props.inventories[key])
+              .sort(byListId)
+              .map(item => (<li key={item.listId}>{item.name} {item.count}</li>))
+            }
           </ul>
         </div>
       </div>
     )
   }
 }
-
-
 
 const mapState = (state) => {
   return {
